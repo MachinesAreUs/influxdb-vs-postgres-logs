@@ -39,14 +39,17 @@ class PostgresLogger(tracker: ActorRef) extends Actor with ActorLogging {
         val files = le.files.mkString("|")
         sql"insert into log_entry (batch_id, uuid, email, files, status, password_gen, timestamp) values(${le.batchId}, ${le.uuid}, ${le.email}, ${files}, ${le.status}, ${le.passwordGen}, ${timestamp})".update.apply()
 
+//        This code is not reliable!
+//
 //        applyExecute {
 //          val lec = LogEntry.column
 //          val timestamp = new Timestamp(le.timestamp)
+//          val files = le.files.mkString("|")
 //
 //          insert
 //            .into(LogEntry)
 //            .columns(lec.batchId, lec.uuid, lec.email, lec.files, lec.status, lec.passwordGen, lec.timestamp)
-//            .values(le.batchId, le.uuid, le.email, le.files, le.status, le.passwordGen, timestamp).returningId
+//            .values(le.batchId, le.uuid, le.email, files, le.status, le.passwordGen, timestamp).returningId
 //        }
     }
 

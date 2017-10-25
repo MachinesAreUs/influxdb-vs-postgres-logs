@@ -1,6 +1,8 @@
+package zensoft.actors
+
 import akka.actor.{ActorRef, ActorSystem, Props}
 import akka.testkit.{ImplicitSender, TestActors, TestKit}
-import org.scalatest.{BeforeAndAfterAll, FlatSpecLike, Matchers, WordSpecLike}
+import org.scalatest.{BeforeAndAfterAll, FlatSpecLike, Matchers}
 import zensoft.actors.loggers.PostgresLogger
 import zensoft.model.LogEntry
 

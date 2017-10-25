@@ -54,7 +54,14 @@ class LogProducer(consumer: ActorRef) extends Actor with ActorLogging {
   }
 
   def randomFileNames(): List[String] = {
-    List("file1.txt", "file2.txt")
+    val files = List(
+      "file1.txt",
+      "file2.txt",
+      "file3.txt",
+      "file4.txt",
+      "file5.txt"
+    )
+    Random.shuffle(files).take(1 + Random.nextInt(4))
   }
 
   def randomStatus(): String = {

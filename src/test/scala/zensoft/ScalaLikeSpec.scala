@@ -1,3 +1,5 @@
+package zensoft
+
 import org.scalatest.{BeforeAndAfterAll, FlatSpec, Matchers}
 import scalikejdbc._
 
