@@ -12,13 +12,13 @@ class ScalaLikeSpec extends FlatSpec with Matchers with BeforeAndAfterAll {
     implicit val session = AutoSession
 
     sql"""
-      DROP INDEX IF EXISTS task_log_example_idx_batch_id;
-      DROP TABLE IF EXISTS task_log_example;
+      DROP INDEX IF EXISTS log_entry_idx_batch_id;
+      DROP TABLE IF EXISTS log_entry;
 
-      CREATE TABLE task_log_example (
+      CREATE TABLE log_entry (
         id           serial not null primary key,
-        batch_id     varchar(32),
-        uuid         varchar(32),
+        batch_id     varchar(50),
+        uuid         varchar(50),
         email        varchar(50),
         files        varchar(100),
         status       varchar(20),
@@ -27,14 +27,14 @@ class ScalaLikeSpec extends FlatSpec with Matchers with BeforeAndAfterAll {
         timestamp timestamp not null
       );
 
-      CREATE INDEX task_log_example_idx_batch_id on task_log_example (batch_id);
+      CREATE INDEX log_entry_idx_batch_id on log_entry (batch_id);
     """.execute.apply()
 
-    sql"INSERT INTO task_log_example (batch_id, uuid, email, files, status, password_gen, timestamp) VALUES ('batch-1', 'uuid-1', 'a@b.c', 'file1.txt', 'DELIVERED', false, current_timestamp)".update.apply()
+    sql"INSERT INTO log_entry (batch_id, uuid, email, files, status, password_gen, timestamp) VALUES ('batch-1', 'uuid-1', 'a@b.c', 'file1.txt', 'DELIVERED', false, current_timestamp)".update.apply()
 
-    sql"""
-      DROP TABLE task_log_example;
-    """.execute.apply()
+//    sql"""
+//      DROP TABLE task_log;
+//    """.execute.apply()
   }
 
 }

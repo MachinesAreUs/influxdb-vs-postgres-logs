@@ -13,24 +13,25 @@ class InfluxLogger(tracker: ActorRef) extends Actor with ActorLogging {
   val database = influx.selectDatabase("perftest")
 
   override def receive : Receive = {
-    case (LogEntry(batchId, uuid, email, files, status, passwordGenerated, _), idx: Int) =>
-      write2Influx(idx, batchId, uuid, email, files, status, passwordGenerated)
+    case LogEntry(batchId, uuid, email, files, status, passwordGen, timestamp, _) =>
+      write2Influx(batchId, uuid, email, files, status, passwordGen, timestamp)
   }
 
-  private def write2Influx(idx: Int,
-                           batchId: String,
+  private def write2Influx(batchId: String,
                            uuid: String,
                            email: String,
                            files: List[String],
-                           status: LogEntry.Status,
-                           passwordGenerated: Boolean) = {
+                           status: String,
+                           passwordGen: Boolean,
+                           timestamp: Long) = {
     val point = Point("tenant")
       .addTag("batchId", batchId)
       .addTag("uuid", uuid)
       .addTag("email", email)
       .addTag("files", files.mkString("|"))
-      .addTag("passwordGenerated", passwordGenerated.toString)
-      .addField("status", status.toString)
+      .addTag("passwordGenerated", passwordGen.toString)
+      .addField("status", status)
+      .addField("timestamp", timestamp)
 
     database.write(point)
 
